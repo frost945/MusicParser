@@ -13,12 +13,11 @@ Avalonia desktop application for parsing music playlists
 - Playwright 
 
 ## Setup Instructions
-
-# Local Development
 1. Clone the repository
 2. Open terminal in project folder
 3. Run: `dotnet restore`
 4. Run: `dotnet run`
+if browsers not found, run: `pwsh bin/Debug/net9.0/playwright.ps1 install`
 
 ## Project Structure
 - Views/ - UI components (XAML)
