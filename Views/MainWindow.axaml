@@ -1,0 +1,97 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MusicParserDesktop.ViewModels"
+        xmlns:model="using:MusicParserDesktop"
+        x:Class="MusicParserDesktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Music Parser Desktop"
+        Width="800"
+        Height="600">
+    
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <StackPanel Margin="20" Spacing="15">
+        <!-- URL Input -->
+        <StackPanel Orientation="Horizontal" Spacing="10">
+            <TextBlock Text="Playlist URL:" VerticalAlignment="Center"/>
+            <TextBox Text="{Binding Url}" Watermark="Enter music playlist URL" Width="400"/>
+<Button Content="Parse" Click="ParseButton_Click" IsEnabled="{Binding IsNotLoading}"/>        </StackPanel>
+
+        <!-- Status Messages -->
+    <StackPanel>
+        <TextBlock Text="{Binding StatusMessage}" Foreground="Blue" 
+                   FontWeight="SemiBold" TextWrapping="Wrap"/>
+        <!-- Error Message -->
+        <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" 
+                   IsVisible="{Binding HasError}" TextWrapping="Wrap"/>
+    </StackPanel>
+
+        <!-- Loading Indicator -->
+        <ProgressBar IsIndeterminate="True" IsVisible="{Binding IsLoading}" Height="10"/>
+
+        <!-- Playlist Info -->
+        <StackPanel IsVisible="{Binding HasPlaylist}" Spacing="10">
+            <!-- Playlist Header -->
+            <Border Background="#f5f5f5" Padding="15">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Border CornerRadius="5" ClipToBounds="True" Margin="0,0,15,0">
+                        <Image Width="100" Height="100" Source="{Binding Playlist.Avatar}" 
+                               Stretch="UniformToFill"/>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Playlist.Title}" FontSize="18" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Playlist.DescriptionPrimary}" Margin="0,5,0,0"/>
+                        <TextBlock Text="{Binding Playlist.DescriptionSecondary}" Margin="0,5,0,0" 
+                                   Foreground="Gray" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Songs List -->
+            <TextBlock Text="Songs:" FontSize="16" FontWeight="Bold"/>
+            
+            <!-- Заголовки колонок -->
+            <Grid Margin="5,0,5,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Title" FontWeight="Bold"/>
+                <TextBlock Grid.Column="1" Text="Artist" FontWeight="Bold"/>
+                <TextBlock Grid.Column="2" Text="Album" FontWeight="Bold"/>
+                <TextBlock Grid.Column="3" Text="Duration" FontWeight="Bold"/>
+            </Grid>
+
+            <ListBox ItemsSource="{Binding Playlist.Songs}" MaxHeight="500"
+         ScrollViewer.VerticalScrollBarVisibility="Auto">
+    <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+        </Style>
+    </ListBox.Styles>
+    <ListBox.ItemTemplate>
+        <DataTemplate>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="500"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding Title}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Text="{Binding Artist}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="2" Text="{Binding Album}" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="3" Text="{Binding Duration}" VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </ListBox.ItemTemplate>
+</ListBox>
+        </StackPanel>
+    </StackPanel>
+</Window>

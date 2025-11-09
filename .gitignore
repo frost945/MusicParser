@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+ImageCache/
+debug_screenshot.png
+error.log
