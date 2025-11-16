@@ -5,6 +5,8 @@ obj/
 
 *.user
 *.suo
+*.tmp
+
 
 ImageCache/
 Properties/
