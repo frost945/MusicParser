@@ -1,4 +1,4 @@
-# Music Parser Desktop
+# Music Parser
 
 Avalonia desktop application for parsing music playlists
 
