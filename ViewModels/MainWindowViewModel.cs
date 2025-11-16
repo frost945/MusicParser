@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using MusicParser.Models;
 
 namespace MusicParserDesktop.ViewModels
 {
@@ -22,7 +23,7 @@ namespace MusicParserDesktop.ViewModels
             set => SetProperty(ref _url, value);
         }
 
-        public Playlist Playlist
+        internal Playlist Playlist
         {
             get => _playlist;
             set
@@ -87,7 +88,7 @@ namespace MusicParserDesktop.ViewModels
                 StatusMessage = "Parsing started...";
 
                 var parserService = new ParserService();
-                Playlist = await parserService.ParseHtmlAsync(Url);
+                Playlist = await parserService.ParseAmazonMusicAsync(Url);
 
                 StatusMessage = "Parsing completed successfully";
             }
@@ -107,8 +108,6 @@ namespace MusicParserDesktop.ViewModels
             Playlist = new Playlist();
 
             ClearError();
-
-            // Force updating bindings
             OnPropertyChanged(nameof(HasPlaylist));
         }
 
@@ -124,7 +123,6 @@ namespace MusicParserDesktop.ViewModels
             StatusMessage = string.Empty;
         }
         
-
         protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value))

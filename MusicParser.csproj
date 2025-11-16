@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -10,12 +10,13 @@
 
   <ItemGroup>
     <Folder Include="ImageCache\" />
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
-    <AvaloniaXaml Remove="Service\**" />
-    <Compile Remove="Service\**" />
-    <EmbeddedResource Remove="Service\**" />
-    <None Remove="Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="MusicParser.csproj.Backup %281%29.tmp" />
+    <None Remove="MusicParser.csproj.Backup %282%29.tmp" />
+    <None Remove="MusicParser.csproj.Backup.tmp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,5 +34,21 @@
     <PackageReference Include="ReactiveUI" Version="22.2.1" />
     <PackageReference Include="System.Reactive" Version="6.1.0" />
   </ItemGroup>
+	
+	<Target Name="ZipAfterPublish" AfterTargets="Publish">
+		<ItemGroup>
+			<PublishedFiles Include="$(PublishDir)**\*" />
+		</ItemGroup>
+
+		<PropertyGroup>
+			<ZipFolder>$(ProjectDir)publish</ZipFolder>
+			<ZipFile>$(ZipFolder)\$(MSBuildProjectName)-portable.zip</ZipFile>
+		</PropertyGroup>
+
+		<MakeDir Directories="$(ZipFolder)" />
+
+		<Message Text="archive the assembly in @(ZipFile)" Importance="high" />
+		<ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(ZipFile)" Overwrite="true" />
+	</Target>
 	
 </Project>
